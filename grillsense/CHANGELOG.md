@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+- Fix temperature parsing: use little-endian u16 at correct offsets
+  (previously read as big-endian at wrong offset, broke above 25.6°C)
+- Update PROTOCOL.md with corrected temperature encoding
+
 ## 0.1.3
 - Fix keepalive echo: respond to 14-byte registration packets so device
   starts sending temperature data

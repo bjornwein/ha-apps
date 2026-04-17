@@ -1,6 +1,6 @@
 ---
 name: GrillSense Thermometer
-version: 0.1.3
+version: 0.1.4
 slug: grillsense
 description: >-
   Monitor GrillSense/Dangrill WiFi BBQ thermometer temperatures
