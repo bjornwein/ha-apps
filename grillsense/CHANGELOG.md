@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+- Fix s6-overlay startup (add init: false)
+- Fix Supervisor API access for MQTT service discovery
+- Use native ARM runner for faster aarch64 builds
+
 ## 0.1.1
 - Fix docker build
 
