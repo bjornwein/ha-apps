@@ -1,0 +1,7 @@
+---
+channel: stable
+addons:
+  grillsense:
+    repository: bjornwein/grillsense
+    target: grillsense
+    image: ghcr.io/bjornwein/grillsense/{arch}

@@ -1,0 +1,34 @@
+---
+name: Repository Updater
+
+# yamllint disable-line rule:truthy
+on:
+  repository_dispatch:
+    types: ["update"]
+
+jobs:
+  update:
+    name: 🔄 Update add-on version
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code
+        uses: actions/checkout@v4
+
+      - name: 📝 Update config.yaml version
+        run: |
+          ADDON="${{ github.event.client_payload.addon }}"
+          VERSION="${{ github.event.client_payload.version }}"
+          CONFIG="${ADDON}/config.yaml"
+
+          if [ -f "$CONFIG" ]; then
+            sed -i "s/^version:.*/version: ${VERSION}/" "$CONFIG"
+            echo "Updated ${CONFIG} to version ${VERSION}"
+          else
+            echo "::error::Config not found: ${CONFIG}"
+            exit 1
+          fi
+
+      - name: 📤 Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "⬆️ Update ${{ github.event.client_payload.addon }} to ${{ github.event.client_payload.version }}"
