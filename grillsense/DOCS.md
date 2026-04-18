@@ -2,10 +2,23 @@
 
 ## How it works
 
-The add-on runs the `grillsense` binary, which receives temperature
-packets from the thermometer over UDP (local mode) or polls the vendor
-cloud API (cloud mode), then publishes to Home Assistant via MQTT
-auto-discovery.
+The add-on runs the `grillsense` binary, which polls the vendor cloud
+API (cloud mode) or receives UDP packets directly from the thermometer
+(local mode), then publishes to Home Assistant via MQTT auto-discovery.
+
+**MQTT is required.** Install the Mosquitto broker add-on (or configure
+an external broker) before starting GrillSense.
+
+## Quick start (cloud mode)
+
+The add-on starts in **cloud mode** by default. It auto-discovers
+your thermometer via LAN broadcast and polls temperatures through the
+vendor cloud API. No configuration is needed if:
+
+1. Your thermometer is already provisioned and on your WiFi network
+2. The Mosquitto add-on is installed
+
+Just install the add-on, start it, and entities appear in Home Assistant.
 
 ## Configuration
 
@@ -13,36 +26,34 @@ auto-discovery.
 
 | Mode | Description |
 |------|-------------|
-| `local` | Device sends UDP packets directly to this machine. Requires one-time device reconfiguration (see below). |
-| `cloud` | Polls the GrillSense cloud API. No device reconfiguration needed but requires internet and a cloud account. |
-
-### MQTT
-
-MQTT credentials are **auto-detected** from the Mosquitto add-on via
-the Supervisor services API. You only need to set `mqtt_host`,
-`mqtt_user`, and `mqtt_pass` if you're using a different broker.
+| `cloud` (default) | Polls the GrillSense cloud API. Works with a factory-provisioned device — no reconfiguration needed. Requires internet. |
+| `local` | Device sends UDP packets directly to this machine. Lower latency, no cloud dependency, but requires one-time device reconfiguration (see below). |
 
 ### Options
 
 | Option | Required | Description |
 |--------|----------|-------------|
-| `mode` | yes | `local` or `cloud` |
-| `udp_port` | local only | UDP port the device targets (default `17000`) |
+| `mode` | no | `cloud` (default) or `local` |
+| `device_mac` | no | WiFi MAC address of the thermometer. Leave empty to auto-discover. |
 | `device_name` | no | Name shown in Home Assistant (default "GrillSense Thermometer") |
-| `cloud_email` | cloud only | GrillSense account email |
-| `cloud_password` | cloud only | GrillSense account password |
-| `mqtt_host` | no | Override MQTT broker host |
+| `udp_port` | local only | UDP port the device targets (default `17000`) |
+| `mqtt_host` | no | Override MQTT broker host (auto-detected from Mosquitto add-on) |
 | `mqtt_port` | no | Override MQTT broker port (default `1883`) |
 | `mqtt_user` | no | Override MQTT username |
 | `mqtt_pass` | no | Override MQTT password |
 
 ## Reconfiguring the device for local mode
 
-The thermometer ships configured to send data to
-`smartserver.emaxtime.cn:17000`. For local mode, redirect it to your
-Home Assistant machine:
+Local mode requires redirecting the thermometer to send UDP packets to
+your Home Assistant machine instead of the vendor cloud. This is a
+one-time setup that requires the `grillsense` CLI tool running on a
+Linux machine on the same network:
 
 ```sh
+# Install from source
+cargo install --git https://github.com/bjornwein/grillsense
+
+# Redirect device to your HA machine
 grillsense local configure \
     --ip <device-ip> \
     --ssid <your-wifi-ssid> \
