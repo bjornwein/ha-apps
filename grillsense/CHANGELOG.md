@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.8
+
+## What's New
+
+### MQTT alarm control fix
+- **Fixed**: MQTT bridge no longer exits silently after receiving an alarm command. The reader task death (e.g. broker keepalive timeout during slow cloud API call) was incorrectly treated as clean shutdown instead of triggering reconnection.
+
+### Console output cleanup
+- MQTT monitoring mode now uses normal newlines for clean HA add-on logs (console-only mode keeps in-place overwrite)
+
+**Full Changelog**: https://github.com/bjornwein/grillsense/compare/v0.1.7...v0.1.8
+
 ## 0.1.7
 
 ## What's New
