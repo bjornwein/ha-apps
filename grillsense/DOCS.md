@@ -76,7 +76,7 @@ grillsense local configure \
 
 | Entity | Type | Description |
 |--------|------|-------------|
-| Temperature CH1–CH6 | sensor | Probe temperature in °C |
+| Temperature CH1–CH6 | sensor | Probe temperature in °C (up to 6, depending on hardware) |
 | Online | binary_sensor | Device connectivity status |
 | Alarm CH1 | number | Alarm setpoint for channel 1 (0–300 °C) |
 | Alarm CH2 | number | Alarm setpoint for channel 2 (0–300 °C) |

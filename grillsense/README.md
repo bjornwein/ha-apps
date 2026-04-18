@@ -19,7 +19,7 @@ No configuration needed if you have the Mosquitto add-on installed.
 
 ## Features
 
-- **6 temperature probe sensors** (CH1–CH6)
+- **Up to 6 temperature probe sensors** (CH1–CH6, depending on hardware)
 - **Device online/offline status**
 - **Alarm setpoint control** (CH1 & CH2, 0–300 °C)
 - **MQTT auto-discovery** — entities appear automatically
