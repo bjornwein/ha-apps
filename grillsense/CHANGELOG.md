@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.6
+- Fix duplicate HA device when switching between local and cloud mode
+- Fix console line clearing artifacts
+- Detect stale cloud data using server timestamp (marks offline after 60s)
+- Document cloud 10-minute staleness timeout and error 101
+- Fix ha-apps translations
+
 ## 0.1.5
 - Add MAC auto-discovery via LAN broadcast (no manual MAC config needed)
 - Detect stale cloud data using server timestamp (marks offline after 60s)
