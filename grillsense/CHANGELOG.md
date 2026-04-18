@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.5
+- Add MAC auto-discovery via LAN broadcast (no manual MAC config needed)
+- Detect stale cloud data using server timestamp (marks offline after 60s)
+- MQTT auto-reconnect with backoff on connection loss
+- Infinite retry for autodiscovery in service mode
+- Console monitor no longer exits after repeated errors
+- Remove unused --token parameter from monitor and set-alarm
+- Fix console line clearing artifacts
+- Simplify HA add-on config: replace cloud email/password with device_mac
+- Document cloud 10-minute staleness timeout and error 101
+
 ## 0.1.4
 - Fix temperature parsing: use little-endian u16 at correct offsets
   (previously read as big-endian at wrong offset, broke above 25.6°C)
