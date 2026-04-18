@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.7
+
+## What's New
+
+### Cloud alarm control via MQTT
+- Setting alarm thresholds in Home Assistant now forwards to the cloud API
+- Alarm setpoints (ch1/ch2) included in MQTT state payload
+- Bidirectional MQTT bridge using tokio::select! for concurrent poll + command handling
+
+### Cloud API improvements
+- `set_alarm_temp()` now supports per-channel alarm setting (ch1 or ch2)
+
+### Full Changelog
+**Full Changelog**: https://github.com/bjornwein/grillsense/compare/v0.1.6...v0.1.7
+
 ## 0.1.6
 - Fix duplicate HA device when switching between local and cloud mode
 - Fix console line clearing artifacts
