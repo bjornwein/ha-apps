@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.10
+
+### Bug fixes
+
+- **Fix alarm echo loop in local monitor mode** — when the device acknowledged an alarm command, the echo handler would echo it back (same packet framing), causing the device to re-acknowledge in an infinite loop. Alarm packets are now excluded from echoing.
+- **Fix incorrect log source** — alarm log messages in local mode incorrectly said "from cloud"; now correctly shows "from device" or "from cloud" based on packet direction.
+
+### Other
+
+- Updated copilot instructions (protocol endianness corrections, module descriptions, release process)
+
 ## 0.1.9
 
 ## What's New
