@@ -6,6 +6,9 @@ on:
   repository_dispatch:
     types: ["update"]
 
+permissions:
+  contents: write
+
 jobs:
   update:
     name: 🔄 Update add-on version
@@ -27,6 +30,35 @@ jobs:
             echo "::error::Config not found: ${CONFIG}"
             exit 1
           fi
+
+      - name: 📝 Update CHANGELOG.md
+        run: |
+          ADDON="${{ github.event.client_payload.addon }}"
+          VERSION="${{ github.event.client_payload.version }}"
+          REPO="${{ github.event.client_payload.repository }}"
+          CHANGELOG="${ADDON}/CHANGELOG.md"
+
+          if [ -f "$CHANGELOG" ]; then
+            # Fetch release notes from the source repository
+            NOTES=$(gh api "repos/${REPO}/releases/tags/v${VERSION}" --jq '.body // empty' 2>/dev/null || true)
+
+            if [ -n "$NOTES" ]; then
+              # Insert new version section after the "# Changelog" header
+              ENTRY=$(printf "## %s\n\n%s\n" "$VERSION" "$NOTES")
+            else
+              ENTRY=$(printf "## %s\n\n- See [release notes](https://github.com/%s/releases/tag/v%s)\n" "$VERSION" "$REPO" "$VERSION")
+            fi
+
+            # Insert after the first line (# Changelog header)
+            sed -i "0,/^# Changelog/{/^# Changelog/a\\
+\\
+${ENTRY}
+            }" "$CHANGELOG"
+
+            echo "Updated ${CHANGELOG} with version ${VERSION}"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: 📤 Commit and push
         uses: stefanzweifel/git-auto-commit-action@v7
