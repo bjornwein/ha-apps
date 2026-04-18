@@ -19,7 +19,7 @@ arch:
   - amd64
   - aarch64
 options:
-  mode: "local"
+  mode: "cloud"
   udp_port: 17000
   device_name: "GrillSense Thermometer"
   device_mac: ""
