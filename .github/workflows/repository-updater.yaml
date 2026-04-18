@@ -39,21 +39,20 @@ jobs:
           CHANGELOG="${ADDON}/CHANGELOG.md"
 
           if [ -f "$CHANGELOG" ]; then
-            # Fetch release notes from the source repository
             NOTES=$(gh api "repos/${REPO}/releases/tags/v${VERSION}" --jq '.body // empty' 2>/dev/null || true)
 
             if [ -n "$NOTES" ]; then
-              # Insert new version section after the "# Changelog" header
-              ENTRY=$(printf "## %s\n\n%s\n" "$VERSION" "$NOTES")
+              ENTRY="## ${VERSION}"$'\n\n'"${NOTES}"
             else
-              ENTRY=$(printf "## %s\n\n- See [release notes](https://github.com/%s/releases/tag/v%s)\n" "$VERSION" "$REPO" "$VERSION")
+              ENTRY="## ${VERSION}"$'\n\n'"- See [release notes](https://github.com/${REPO}/releases/tag/v${VERSION})"
             fi
 
-            # Insert after the first line (# Changelog header)
-            sed -i "0,/^# Changelog/{/^# Changelog/a\\
-\\
-${ENTRY}
-            }" "$CHANGELOG"
+            # Prepend new entry after the header line
+            head -1 "$CHANGELOG" > "${CHANGELOG}.tmp"
+            echo "" >> "${CHANGELOG}.tmp"
+            echo "$ENTRY" >> "${CHANGELOG}.tmp"
+            tail -n +2 "$CHANGELOG" >> "${CHANGELOG}.tmp"
+            mv "${CHANGELOG}.tmp" "$CHANGELOG"
 
             echo "Updated ${CHANGELOG} with version ${VERSION}"
           fi
