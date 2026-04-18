@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.11
+
+### Bug fixes
+
+- **Fix alarm echo loop in local mode** — echoing alarm packets back to the device caused an infinite acknowledgment loop. Alarm packets (16 bytes) are now excluded from echoing.
+- **Fix alarm log source** — correctly shows "from device" or "from cloud" based on packet direction.
+
+### New features
+
+- **Alarm persistence (local/proxy mode)** — alarm setpoints are saved to disk and re-pushed to the device on (re)connect, surviving both device power cycles and process restarts.
+  - HA add-on: `/data/alarms.json`
+  - Standalone: `~/.local/share/grillsense/alarms.json`
+
 ## 0.1.10
 
 ### Bug fixes
