@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.9
+
+## What's New
+
+### Bug fixes from code review
+- **Local time in logs** — timestamps now show local time instead of UTC
+- **MQTT keepalive fix** — separate 30s ping timer prevents broker disconnects during slow cloud API calls
+- **Alarm state always reported** — HA shows 0 instead of "unknown" when no alarm is set
+- **No more double cloud polling** — MQTT bridge shares data with display task via channel
+- **BLE frame overflow detection** — panics with clear message instead of silently truncating long WiFi passwords
+- **Consistent Fahrenheit** — local monitor now uses the same rounding as cloud mode
+
+### Local/proxy mode improvements
+- **Offline detection** — device marked offline in HA after 60s silence (was stuck online forever)
+- **MQTT reconnect backoff** — 5s → 60s cap (was fixed 5s)
+- **Reader task death fix** — triggers reconnect instead of silent exit
+
+### Other
+- MIT / Apache-2.0 dual license added
+- HA add-on defaults to cloud mode (zero-config)
+
+**Full Changelog**: https://github.com/bjornwein/grillsense/compare/v0.1.8...v0.1.9
+
 ## 0.1.8
 
 ## What's New
