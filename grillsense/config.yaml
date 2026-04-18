@@ -22,8 +22,7 @@ options:
   mode: "local"
   udp_port: 17000
   device_name: "GrillSense Thermometer"
-  cloud_email: ""
-  cloud_password: ""
+  device_mac: ""
   mqtt_host: ""
   mqtt_port: 1883
   mqtt_user: ""
@@ -32,8 +31,7 @@ schema:
   mode: list(local|cloud)
   udp_port: port
   device_name: str
-  cloud_email: str?
-  cloud_password: str?
+  device_mac: str?
   mqtt_host: str?
   mqtt_port: port?
   mqtt_user: str?
